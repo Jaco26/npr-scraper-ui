@@ -2,9 +2,9 @@ import functools
 from flask import jsonify
 
 class ApiResult(object):
-  def __init__(self, data={}, info=[], errors=[], status=200):
+  def __init__(self, data={}, message="", errors=[], status=200):
     self.data = data
-    self.info = info
+    self.message = message
     self.errors = errors
     self.status = status
 
@@ -12,7 +12,7 @@ class ApiResult(object):
     return jsonify(
       data=self.data,
       errors=self.errors,
-      info=self.info,
+      message=self.message,
       status=self.status,
     )
 

@@ -5,6 +5,11 @@ class Config(object):
   DEBUG = False
   TESTING = False
   SECRET_KEY = os.environ['SECRET_KEY']
+  SQLALCHEMY_TRACK_MODIFICATIONS = False
+  SQLALCHEMY_BINDS = {
+    'scraper': os.environ['SCRAPER_DATABASE_URI'],
+    'processed': os.environ['PROCESSED_DATABASE_URI'],
+  }
   
 
 class ProductionConfig(Config):
@@ -12,7 +17,7 @@ class ProductionConfig(Config):
 
 
 class DevelopmentConfig(Config):
-  PROCESSED_DATABASE_URI = os.environ['PROCESSED_DATABASE_URI']
-  SCRAPER_DATABASE_URI = os.environ['SCRAPER_DATABASE_URI']
+  DEBUG = True
+  PROPAGATE_EXCEPTIONS = True
 
 
