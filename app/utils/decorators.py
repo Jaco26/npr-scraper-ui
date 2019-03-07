@@ -8,7 +8,16 @@ class ApiResult(object):
     self.errors = errors
     self.status = status
 
-  def to_response(self):
+  def clear(self):
+    self.data = {}
+    self.message = ""
+    self.errors = []
+    self.status = 200
+
+  def set_results(self, results):
+    self.data.update({'results': results})
+
+  def json(self):
     return jsonify(
       data=self.data,
       errors=self.errors,

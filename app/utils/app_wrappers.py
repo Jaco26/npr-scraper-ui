@@ -1,12 +1,16 @@
 from flask import Flask, jsonify
 from werkzeug.exceptions import HTTPException, default_exceptions
-from app.utils.decorators import ApiResult
+# from app.utils.decorators import ApiResult
 
-class ApiFlask(Flask):
-  def make_response(self, rv):
-    if isinstance(rv, ApiResult):
-      return rv.to_response()
-    return Flask.make_response(self, rv)
+# class ApiFlask(Flask):
+
+#   def __init__(self, import_name, *args, **kwargs):
+#     super(Flask, self).__init__(import_name, *args, **kwargs)
+
+#   def make_response(self, rv):
+#     if isinstance(rv, ApiResult):
+#       return rv.to_response()
+#     return Flask.make_response(self, rv)
 
 
 def JsonApp(app):
@@ -26,7 +30,7 @@ def JsonApp(app):
       }
     resp = jsonify(result)
     resp.status_code = result['code']
-    print(resp.status)
+    # print(resp.status)
     return resp
 
   for code in default_exceptions.keys():

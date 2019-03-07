@@ -2,13 +2,13 @@ import os
 from flask import Flask, abort, jsonify
 from werkzeug.exceptions import HTTPException
 
-from .db import db
-from .utils.app_wrappers import JsonApp, ApiFlask
+from .utils.app_wrappers import JsonApp
 from .blueprints.results_api import res_api
+from . import db
 
 
 def create_app():
-  app = JsonApp(ApiFlask(__name__))
+  app = JsonApp(Flask(__name__))
   app.config.from_object(os.environ['APP_SETTINGS'])
 
   db.init_app(app)

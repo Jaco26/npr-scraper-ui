@@ -1,6 +1,6 @@
 from app.db import db
 from sqlalchemy.dialects.postgresql import TIMESTAMP, INTEGER, VARCHAR
-
+from pprint import pprint
 from sqlalchemy import text
 
 class ArticleUrls(db.Model):
@@ -27,9 +27,3 @@ class Instances(db.Model):
   section_type = db.Column(INTEGER)
   story_number = db.Column(INTEGER)
   ts = db.Column(TIMESTAMP)
-
- 
-
-   
-
-  
