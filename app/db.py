@@ -8,7 +8,8 @@ from flask import g
 
 load_dotenv()
 
-DB_URI = os.environ.get("SCRAPER_DATABASE_URI")
+# DB_URI = os.environ.get("SCRAPER_DATABASE_URI")
+DB_URI = os.environ.get("PROCESSED_DATABASE_URI")
 
 URI_ITEMS = DB_URI[DB_URI.index('//') + 2:].split(':')
 
@@ -32,7 +33,6 @@ def execute(sql_text, values=()):
     with conn.cursor(cursor_factory=RealDictCursor) as c:
       c.execute(sql_text, values)
       result = c.fetchall()
-  conn.close()
   return result
       
 

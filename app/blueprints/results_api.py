@@ -2,7 +2,9 @@ from datetime import datetime, date, timedelta
 
 from flask import Blueprint, abort, current_app
 from app.utils.decorators import with_res
-from app.db import execute
+
+from app.queries import query
+# from app.db import execute
 
 
 res_api = Blueprint('res_api', __name__)
@@ -11,13 +13,8 @@ res_api = Blueprint('res_api', __name__)
 @with_res
 def index(res):
   try:
-    start = datetime.now()
-    sql_text = """
-      SELECT date_trunc('hour', ts), slug_text, title_text FROM instances
-      WHERE ts BETWEEN %s AND %s
-      ORDER BY ts;
-    """
-    results = execute(sql_text, (date(2019, 3, 1).isoformat(), date(2019, 3, 2).isoformat()))
+  
+    results = query.between_ts('2018-10-1', '2018-10-7', 'slug_text, title_text')
     res.message = "We got em!"
     res.set_results(results)
   except BaseException as e:
@@ -25,7 +22,4 @@ def index(res):
     res.errors.append("Something went wrong: {}".format(e))
     res.status = 401
   finally:
-    print(len(res.data['results']))
-    end = datetime.now()
-    print(end - start)
     return res.json()
