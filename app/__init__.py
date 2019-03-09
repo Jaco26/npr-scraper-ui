@@ -4,8 +4,7 @@ from werkzeug.exceptions import HTTPException
 
 from .utils.app_wrappers import JsonApp
 from .blueprints.results_api import res_api
-from . import db
-
+from .db import db
 
 def create_app():
   app = JsonApp(Flask(__name__))

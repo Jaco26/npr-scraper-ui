@@ -1,22 +1,18 @@
 from datetime import datetime, date, timedelta
-
 from flask import Blueprint, abort, current_app
 from app.utils.decorators import with_res
-
-from app.queries import query
-# from app.db import execute
-
+from app.models.instances import Instances
 
 res_api = Blueprint('res_api', __name__)
 
 @res_api.route("/")
+@res_api.route("/<d1>/<d2>")
 @with_res
-def index(res):
+def index(res, d1=None, d2=None):
   try:
-  
-    results = query.between_ts('2018-10-1', '2018-10-7', 'slug_text, title_text')
+    results = Instances.ts_between('2018-10-1', '2018-10-7')
     res.message = "We got em!"
-    res.set_results(results)
+    res.set_results([x.to_dict() for x in results])
   except BaseException as e:
     res.clear()
     res.errors.append("Something went wrong: {}".format(e))
