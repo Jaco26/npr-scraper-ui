@@ -14,8 +14,12 @@ class ApiResult(object):
     self.errors = []
     self.status = 200
 
+  def add_error(self, msg="", err=None):
+    error = {"message": msg, "error": str(err)}
+    self.errors.append(error)
+
   def set_results(self, results):
-    self.data.update({'results': results})
+    self.data.update({"results": results})
 
   def json(self):
     return jsonify(

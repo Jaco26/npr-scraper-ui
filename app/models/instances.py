@@ -1,9 +1,17 @@
 from app.db import db
-from sqlalchemy import func, and_
+from sqlalchemy import func, text, and_
 from sqlalchemy.dialects.postgresql import (
   VARCHAR, INTEGER, TIMESTAMP
 )
 from datetime import date, datetime
+
+class ArticleInstances(db.Model):
+  __tablename__ = 'article_urls'
+
+  id = db.Column(INTEGER, primary_key=True)
+  title_url = db.Column(VARCHAR)
+
+
 
 class Instances(db.Model):
   __tablename__ = 'instances'
@@ -39,5 +47,18 @@ class Instances(db.Model):
 
   @classmethod
   def ts_between(cls, d1, d2):
-    return cls.query.filter(and_(cls.ts.between(d1, d2))).all()
+    return [x.to_dict() for x in cls.query.filter(and_(cls.ts.between(d1, d2))).all()]
 
+
+  @classmethod
+  def count_slug_groups(cls):
+    result = cls.query.with_entities(
+      func.count(cls.slug_text).label("count"),
+      cls.slug_text
+    ).order_by(text("count desc")).group_by(cls.slug_text).all()
+    return [dict(
+      count=i[0], 
+      slug_text=i[1]
+      ) for i in result]
+
+  
